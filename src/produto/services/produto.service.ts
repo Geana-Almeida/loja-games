@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Produto } from "../entities/produto.entity";
 import {  DeleteResult, MoreThanOrEqual, Repository } from "typeorm";
 import { CategoriaService } from "../../categoria/service/categoria.service";
+import { Min, MIN, min } from "class-validator";
 
 
 
@@ -77,5 +78,42 @@ export class ProdutoService {
         return await this.produtoRepository.delete(id);
     }
 
+    async findByProdutoBiggerValueTyped(valor: number): Promise<Produto[]>{
+        let precoASC = await this.produtoRepository.find({
+            order:{
+                preco: 'asc'
+            },
+        })
+
+        let produtosValorAcimaDigitado = []
+
+        precoASC.filter((produto) => {
+            
+            if(produto.preco > valor){
+                produtosValorAcimaDigitado.push(produto)
+            }
+        })
+
+        return produtosValorAcimaDigitado
+    }
+
+    async findByProdutoSmallerValueTyped(valor: number): Promise<Produto[]>{
+        let precoDesc = await this.produtoRepository.find({
+            order:{
+                preco: 'desc'
+            },
+        })
+
+        let produtosValorAbaixoDigitado = []
+
+        precoDesc.filter((produto) => {
+            
+            if(produto.preco < valor){
+                produtosValorAbaixoDigitado.push(produto)
+            }
+        })
+
+        return produtosValorAbaixoDigitado
+    }
 
 }

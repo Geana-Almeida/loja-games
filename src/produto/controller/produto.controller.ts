@@ -20,6 +20,17 @@ export class ProdutoController{
         return this.produtoService.findById(id);
     }
 
+    @Get('/valorAcima/:valor')
+    @HttpCode(HttpStatus.OK)
+    findByProdutoBiggerValueTyped(@Param('valor', ParseIntPipe) valor: number):Promise<Produto[]>{
+        return this.produtoService.findByProdutoBiggerValueTyped(valor);
+    }
+
+    @Get('/valorAbaixo/:valor')
+    @HttpCode(HttpStatus.OK)
+    findByProdutoSmallerValueTyped(@Param('valor', ParseIntPipe) valor: number):Promise<Produto[]>{
+        return this.produtoService.findByProdutoSmallerValueTyped(valor);
+    }
 
     @Post()
     @HttpCode(HttpStatus.CREATED)
