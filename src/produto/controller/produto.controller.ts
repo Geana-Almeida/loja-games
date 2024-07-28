@@ -5,7 +5,7 @@ import { Produto } from "../entities/produto.entity";
 
 @Controller("/produtos")
 export class ProdutoController{
-
+    
     constructor(private readonly produtoService: ProdutoService){}
 
     @Get()
@@ -49,4 +49,5 @@ export class ProdutoController{
     delete(@Param("id", ParseIntPipe) id: number){
         return this.produtoService.delete(id);
     }
+
 }
